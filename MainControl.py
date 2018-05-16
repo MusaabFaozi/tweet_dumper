@@ -17,7 +17,7 @@ class UpdateCenter():
 
 		print("process starts...")
 		while True:
-			var = "%sx%s"%(self.GUI.winfo_width(), self.GUI.winfo_height())
+			var = "{}x{}".format(self.GUI.winfo_width(), self.GUI.winfo_height())
 			#time.sleep(0.05)
 			self.GUI.status_bar.dimensions.set(var)
 			self.GUI.status_bar.connectivity_status.set(self.internet_on())

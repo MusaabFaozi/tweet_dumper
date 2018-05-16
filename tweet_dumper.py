@@ -37,7 +37,7 @@ def get_all_tweets(screen_name, lang, dest):
 	
 	#keep grabbing tweets until there are no tweets left to grab
 	while len(new_tweets) > 0:
-		print "getting tweets before %s" % (oldest)
+		print ("getting tweets before {}".format(oldest))
 		
 		#all subsiquent requests use the max_id param to prevent duplicates
 		new_tweets = api.user_timeline(screen_name = screen_name,count=200,max_id=oldest)
@@ -48,7 +48,7 @@ def get_all_tweets(screen_name, lang, dest):
 		#update the id of the oldest tweet less one
 		oldest = alltweets[-1].id - 1
 		
-		print "...%s tweets downloaded so far" % (len(alltweets))
+		print("... tweets downloaded so far").format(len(alltweets))
 	
 	#transform the tweepy tweets into a 2D array that will populate the csv	
 	outtweets = []
@@ -79,16 +79,14 @@ def get_all_tweets(screen_name, lang, dest):
 			outtweets.append([date[0], desc.encode("utf-8"), tweet.text.encode("utf-8"), url_text])
 
 	print("####################################################")
-	print("# A total of %s tweets have been downloaded" % str(cnt))
+	print("# A total of {} tweets have been downloaded".format(str(cnt)))
 	print("####################################################")
-	print("# %s tweets successfully translated" % str(translated))
-	print("# %s tweets were not translated" % str(cnt - translated))
+	print("# {} tweets successfully translated".format(str(translated)))
+	print("# {} tweets were not translated".format(str(cnt - translated)))
 	print("####################################################")
 
 	#write the csv	
-	with open('%s/%s_tweets.csv' % (dest, screen_name), 'wb') as f:
+	with open('{}/{}_tweets.csv'.format(dest, screen_name), 'wb') as f:
 		writer = csv.writer(f)
 		writer.writerow(["Date","Description","Arabic description","Media source link"])
 		writer.writerows(outtweets)
-	
-	pass
