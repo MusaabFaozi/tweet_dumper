@@ -1,4 +1,4 @@
-import Tkinter as tk
+import tkinter as tk
 from tkFileDialog import *
 import getpass
 import MainControl as mc
@@ -70,7 +70,7 @@ class FileInput(tk.Frame):
 			font=("Helvetica")).grid(row=1, column=0, sticky = tk.E)
 
 		#make a default directory as an entry
-		self.dest = tk.StringVar(self, value='/Users/%s/Documents/tweet_dumper'%(getpass.getuser()))
+		self.dest = tk.StringVar(self, value='/Users/{}/Documents/tweet_dumper'.format(getpass.getuser()))
 		self.dest_entry = tk.Entry(self, textvariable= self.dest)
 		self.dest_entry.grid(row=1,column=1,sticky=tk.W)
 
