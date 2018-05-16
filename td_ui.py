@@ -152,9 +152,6 @@ class MainApplication(tk.Frame):
 		self.file_input.pack(pady=20)
 		self.send_button.pack()
 
-		self.yscrollcommand=self.scroll_bar.set
-		self.scroll_bar.config(command=yview)
-
 
 if __name__ == "__main__":
 

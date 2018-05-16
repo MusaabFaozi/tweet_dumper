@@ -1,7 +1,7 @@
 import threading as mt
 import tweet_dumper as td
 import time
-import urllib2
+import urllib3
 
 class UpdateCenter():
 	"""docstring for UpdateCenter"""
@@ -26,7 +26,7 @@ class UpdateCenter():
 		try:
 			urllib2.urlopen('http://216.58.192.142', timeout=1)
 			return "Connected"
-		except urllib2.URLError as err:
+		except urllib3.URLError as err:
 			return "No connection."
 
 class SendData():
