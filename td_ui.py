@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkFileDialog import *
+from tkinter.filedialog import *
 import getpass
 import MainControl as mc
 import tweet_dumper as td
