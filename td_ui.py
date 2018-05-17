@@ -124,6 +124,23 @@ class SendButton(tk.Frame):
 	def callback(self):
 		print("SendButton: click!")
 		self.parent.control_center.send_data()
+class LogData(tk.Frame):
+	def __init__(self, parent, *args, **kwargs):
+		tk.Frame.__init__(self, parent, *args, **kwargs)
+		self.parent = parent
+
+		#text field to print log for program to use as a feedback method
+		self.log = tk.Text(self,
+			bg="#ECECEC",
+			state="disabled")
+		self.scrollbar = tk.Scrollbar(self)
+
+		self.scrollbar.pack(side="right", fill="y")
+		self.log.pack(side="left", fill="y")
+
+		self.log.config(yscrollcommand=self.scrollbar.set)
+		self.scrollbar.config(command=self.log.yview)
+
 class MainApplication(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
 		tk.Frame.__init__(self, parent, *args, **kwargs)
@@ -138,19 +155,19 @@ class MainApplication(tk.Frame):
 		self.title = Titlebar(self) #make title for GUI
 		self.tweet_input = TweetInput(self, borderwidth = 3, relief="groove") #create input field
 		self.file_input = FileInput(self, borderwidth = 2, relief="groove") #choose file destination
-		self.status_bar = Statusbar(self, borderwidth = 3, relief="sunken") #show program status
+		self.status_bar = Statusbar(self, borderwidth = 3, relief="sunken", bg="#ECECEC") #show program status
 		self.send_button = SendButton(self)
-		self.scroll_bar = tk.Scrollbar(self.parent)
+		self.log_data = LogData(self, borderwidth = 3, relief="sunken", width=500)
 		self.control_center = mc.MainControl(self) #responsible for all updates to the program
 
 		print("here1")
 
 		self.status_bar.pack(fill="x", side="bottom")
-		self.scroll_bar.pack(fill="y", side="right")
 		self.title.pack(side="top",fill="x",pady=10)
 		self.tweet_input.pack(ipady=10,ipadx=10)
 		self.file_input.pack(pady=20)
 		self.send_button.pack()
+		self.log_data.pack(pady=10)
 
 
 if __name__ == "__main__":

@@ -71,8 +71,18 @@ class MainControl():
 
 		#self.send_data = SendData()
 		self.update_center = UpdateCenter(self)
+		self.init()
+
+	def init(self):
+		self.GUI.log_data.log.configure(state="normal")
+		msg = "This is a message that has nothing to do with "
+		msg = msg + "the program, yet is beneficial for debugging. "
+		msg = msg + "I need this to go to the text field I created in the program as a test"
+		self.GUI.log_data.log.insert(1.0, msg)
+		self.GUI.log_data.log.configure(state="disabled")
 
 	def send_data(self):
 		twitter_username = self.twitter_username
 		lang = self.lang
 		dest = self.dest
+
