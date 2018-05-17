@@ -132,7 +132,7 @@ class MainApplication(tk.Frame):
 		#Initializers for the GUI
 		self.parent.title("Tweet Downloader") #title at window top
 		self.parent.geometry('640x480+300+150') #initial dimensions + position in screen
-		self.parent.minsize(500,100) #set the minimum window size for the program
+		self.parent.minsize(400,350) #set the minimum window size for the program
 
 		#Build the GUI components by calling their classes
 		self.title = Titlebar(self) #make title for GUI
