@@ -1,7 +1,7 @@
 import threading as mt
 import tweet_dumper as td
 import time
-import urllib3
+import Response 
 
 class UpdateCenter():
 	"""docstring for UpdateCenter"""
@@ -24,10 +24,20 @@ class UpdateCenter():
 
 	def internet_on(self):
 		try:
+<<<<<<< HEAD
 			urllib3.urlopen('http://216.58.192.142', timeout=1)
 			return "Connected"
 		except urllib3.URLError as err:
 			return "No connection."
+=======
+			request.get('http://216.58.192.142')
+			if resp:
+				return "Connected"
+			else:
+				return "Not connected"
+		except Response.raise_for_status() as err:
+			return "Error with request.get()"
+>>>>>>> 01fe3c382e27a9c7dd9bc62d0cd6c62c2bcd2254
 
 class SendData():
 	"""docstring for SendData"""
