@@ -4,9 +4,20 @@ import time
 import requests 
 
 class UpdateCenter():
-	"""docstring for UpdateCenter"""
+	"""
+		This class controls regular updates to the program GUI. It includes
+	1 method to achieve this responsibility. The following discusses the goal
+	of each method:
+	#	update(self)
+			- Input: it takes the default input "self" to get access to the 
+					GUI and the status bar in the program.
+			- Role: the method is run in a thread with wait time of 0.1s, so
+					it runs in a rate of 10 times per second. The method pushes
+					updates to (window dimensions) and (internet connectivity)
+					of the program.
+			- Output: N/A 
+	 """
 	def __init__(self, main):
-		self.main = main
 		self.GUI = main.GUI
 
 		self.t1 = mt.Thread(target = self.update, name='Thread-1')
@@ -19,7 +30,7 @@ class UpdateCenter():
 		self.GUI.status_bar.connectivity_status.set(self.internet_on())
 		while True:
 			var = "{}x{}".format(self.GUI.winfo_width(), self.GUI.winfo_height())
-			#time.sleep(0.05)
+			time.sleep(0.1)
 			self.GUI.status_bar.dimensions.set(var)
 
 	def internet_on(self):
