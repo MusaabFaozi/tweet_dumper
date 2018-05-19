@@ -94,12 +94,10 @@ class MainControl():
 		self.init()
 
 	def init(self):
-		self.GUI.log_data.log.configure(state="normal")
 		msg = "This is a message that has nothing to do with "
 		msg = msg + "the program, yet is beneficial for debugging. "
-		msg = msg + "I need this to go to the text field I created in the program as a test\n"
-		self.GUI.log_data.log.insert(1.0, msg)
-		self.GUI.log_data.log.configure(state="disabled")
+		msg = msg + "I need this to go to the text field I created in the program as a test"
+		self.GUI.log_data.log_print(msg)
 
 	def send_data(self):
 		self.twitter_username = self.GUI.tweet_input.twitter_username.get()
@@ -115,6 +113,7 @@ class MainControl():
 			print("it went through.")
 		else:
 			self.GUI.log_data.log_print(self.switch_err(self.error_no))
+
 
 	def validate_username(self, username):
 
