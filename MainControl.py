@@ -70,13 +70,17 @@ class MainControl():
 					follows the Twitter username standards. 
 			- Output: it returns error_no = 0 if it is a valid name, and the error_no
 					if otherwise.
-	#
+
+	#	switch_err(self, err)
+			- Input: it takes the default (self), and the error number (err).
+			- Role: it is  designed as a switch statement that maps err numbers to their 
+					associated error messages.
+			- Output: error message (msg)
 	"""
 
-	#TODO: error control class
 	#TODO: destination check
 	#TODO: 
-	
+
 	def __init__(self, GUI):
 		self.GUI = GUI
 		self.twitter_username = '' #send to tweet_dumper (1)
@@ -93,7 +97,7 @@ class MainControl():
 		self.GUI.log_data.log.configure(state="normal")
 		msg = "This is a message that has nothing to do with "
 		msg = msg + "the program, yet is beneficial for debugging. "
-		msg = msg + "I need this to go to the text field I created in the program as a test"
+		msg = msg + "I need this to go to the text field I created in the program as a test\n"
 		self.GUI.log_data.log.insert(1.0, msg)
 		self.GUI.log_data.log.configure(state="disabled")
 
@@ -110,14 +114,13 @@ class MainControl():
 		if self.error_no == 0:
 			print("it went through.")
 		else:
-			print("error had occured. error number:{}".format(self.error_no))
+			self.GUI.log_data.log_print(self.switch_err(self.error_no))
 
 	def validate_username(self, username):
 
 		name = username
 		if name == '': #check for empty text
 			return 2, name #unsupported character
-			print("empty")
 
 		if name[0] == '@': #include usermnames starting with @
 			if len(name) != 1:
@@ -135,3 +138,13 @@ class MainControl():
 
 		return 0, name
 
+	def switch_err(self, err):
+		msg = ''
+		if err == 1:
+			msg = "[Error 1]: The name you entered is too long. It should not exceed 15 characters."
+		elif err == 2:
+			msg = "[Error 2]: The name you have entered has an unsupported characger. Twitter usernames are only allowed to include alphabet letters(a-z), numbers(0-9) and underscore(_)."
+		else:
+			msg = "Error number is not included."
+
+		return msg

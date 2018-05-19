@@ -116,6 +116,8 @@ class SendButton(tk.Frame):
 
 		#button to communicate with tweet_dumper
 		self.button_text = tk.StringVar()
+		self.button_text.set("Download Tweets")
+		
 		self.choose_dir = tk.Button(self,
 			textvariable=self.button_text,
 			font=("Helvetica", 16),
@@ -141,6 +143,12 @@ class LogData(tk.Frame):
 
 		self.log.config(yscrollcommand=self.scrollbar.set)
 		self.scrollbar.config(command=self.log.yview)
+
+	def log_print(self, msg):
+
+		self.log.configure(state="normal")
+		self.log.insert("end", msg + '\n')
+		self.log.configure(state="disabled")
 
 class MainApplication(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
