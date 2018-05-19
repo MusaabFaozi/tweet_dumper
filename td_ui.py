@@ -25,9 +25,9 @@ class TweetInput(tk.Frame):
 			text = "Twitter Account:", #label text
 			font=("Helvetica")).grid(row=1,column=0,sticky=tk.E)
 
-		self.twitter_account = tk.StringVar() #stores value for tweet_account
+		self.twitter_username = tk.StringVar() #stores value for tweet_account (send)
 		self.tweet_account = tk.Entry(self,
-			textvariable = self.twitter_account).grid(row=1,column=1,sticky=tk.W, columnspan=100)
+			textvariable = self.twitter_username).grid(row=1,column=1,sticky=tk.W, columnspan=100)
 		self.language_label = tk.Label(self,
 			text = "Language: ",
 			font=("Helvetica")).grid(row=2,column=0,sticky=tk.E)
@@ -115,8 +115,9 @@ class SendButton(tk.Frame):
 		self.parent = parent
 
 		#button to communicate with tweet_dumper
+		self.button_text = tk.StringVar()
 		self.choose_dir = tk.Button(self,
-			text="Dowload Tweets",
+			textvariable=self.button_text,
 			font=("Helvetica", 16),
 			command = self.callback,
 			width = 30).grid(row=1,column=0)

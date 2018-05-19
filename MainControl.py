@@ -1,5 +1,6 @@
 import threading as mt
 import tweet_dumper as td
+import re
 import time
 import requests 
 
@@ -15,8 +16,8 @@ class UpdateCenter():
 					it runs in a rate of 10 times per second. The method pushes
 					updates to (window dimensions) and (internet connectivity)
 					of the program.
-			- Output: N/A 
-	 """
+			- Output: N/A
+	"""
 	def __init__(self, main):
 		self.GUI = main.GUI
 
@@ -42,28 +43,43 @@ class UpdateCenter():
 				return "Problem with requests.get()"
 		except:
 			return "Not connected"
-
-class SendData():
-	"""docstring for SendData"""
-	def __init__(self, twitter_username, lang, dest):
-		self.twitter_username = twitter_username
-		self.lang = lang
-		self.dest = dest
 		
 class MainControl():
 	"""
 		This class controls comunications between GUI classes and actual program. It
-	has 0 methods to achieve this reponsibility. The following explains the responsibility
+	has 2 methods to achieve this reponsibility. The following explains the responsibility
 	of each method:
-	#	
-	#
-	#
+	#	init()
+			- Input: it takes the default (self) to get access to GUI
+			- Role: it is an extension to the to the __init__() method. It will run
+					one time at the beginning of the program. It will initialize the 
+					log screen in the GUI
+			- Output: N/A
+
+	#	send_data()
+			- Input: the default (self) to get access to the GUI and MainControl
+					properties.
+			- Role: it is called when send data button in the GUI. It starts by
+					extracting the data from the GUI and validating them. Then,
+					it initialize a process to run tweet_dumper in it.
+			- Output: error_no
+
+	#	validate_username()
+			- Input: the default (self), and the username that needs to be validated
+			- Role: Checks for all the components of the username entered to check if it
+					follows the Twitter username standards. 
+			- Output: it returns error_no = 0 if it is a valid name, and the error_no
+					if otherwise.
 	#
 	"""
+
+	#TODO: validate username using regex [Done, needs tests]
+	#TODO: error control class
+	#TODO: destination check
+	#TODO: 
 	def __init__(self, GUI):
 		self.GUI = GUI
 		self.twitter_username = '' #send to tweet_dumper (1)
-		self.validated = True
 		self.error_no = 0
 		self.lang = 'en'   #send to tweet_dumper (2)
 		self.dest = '' #send to tweet_dumper (3)
@@ -82,7 +98,34 @@ class MainControl():
 		self.GUI.log_data.log.configure(state="disabled")
 
 	def send_data(self):
-		twitter_username = self.twitter_username
-		lang = self.lang
-		dest = self.dest
+		self.twitter_username = self.GUI.tweet_input.twitter_username.get()
+		if (self.GUI.tweet_input.lang.get() == 1):
+			self.lang = 'en'
+		else:
+			self.lang = 'ar'
+		self.dest = self.GUI.file_input.dest.get()
+
+		(self.error_no, self.twitter_username) = self.validate_username(self.twitter_username)
+
+		if self.error_no == 0:
+			print("it went through.")
+		else:
+			print("error had occured. error number:{}".format(self.error_no))
+
+	def validate_username(self, username):
+
+		name = username
+		if name == '': #check for empty text
+			return 2, name #unsupported character
+		elif name[0] == '@': #include adding @
+			name.replace("@", "", 1)
+		elif len(name) > 15 or name == "": #checks for string length
+			return 1, name #string is too long
+		else:
+			if re.search("[^0-9a-zA-Z_]", name): #checks for illegal character
+				return 2, name #unsupported character
+			else:
+				return 0, name
+
+		return 0, name
 
