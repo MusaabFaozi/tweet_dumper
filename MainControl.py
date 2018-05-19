@@ -79,7 +79,6 @@ class MainControl():
 	"""
 
 	#TODO: destination check
-	#TODO: 
 
 	def __init__(self, GUI):
 		self.GUI = GUI

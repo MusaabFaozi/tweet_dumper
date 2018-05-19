@@ -84,6 +84,8 @@ class FileInput(tk.Frame):
 
 	def callback(self):
 		print("FileInput: click!")
+		self.dest.set(askdirectory(initialdir = "/"))
+		print(self.dest.get())
 class Statusbar(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
 		tk.Frame.__init__(self, parent, *args, **kwargs)
