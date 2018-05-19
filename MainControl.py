@@ -73,10 +73,10 @@ class MainControl():
 	#
 	"""
 
-	#TODO: validate username using regex [Done, needs tests]
 	#TODO: error control class
 	#TODO: destination check
 	#TODO: 
+	
 	def __init__(self, GUI):
 		self.GUI = GUI
 		self.twitter_username = '' #send to tweet_dumper (1)
@@ -117,9 +117,15 @@ class MainControl():
 		name = username
 		if name == '': #check for empty text
 			return 2, name #unsupported character
-		elif name[0] == '@': #include adding @
-			name.replace("@", "", 1)
-		elif len(name) > 15 or name == "": #checks for string length
+			print("empty")
+
+		if name[0] == '@': #include usermnames starting with @
+			if len(name) != 1:
+				name = name.replace("@", "", 1)
+			else: #if '@' was the only character entered
+				return 2, name
+
+		if len(name) > 15: #checks for string length
 			return 1, name #string is too long
 		else:
 			if re.search("[^0-9a-zA-Z_]", name): #checks for illegal character
