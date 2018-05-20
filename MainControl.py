@@ -1,4 +1,5 @@
 import threading as mt
+import multiprocessing as mp
 import tweet_dumper as td
 import re
 import time
@@ -78,8 +79,6 @@ class MainControl():
 			- Output: error message (msg)
 	"""
 
-	#TODO: destination check
-
 	def __init__(self, GUI):
 		self.GUI = GUI
 		self.twitter_username = '' #send to tweet_dumper (1)
@@ -109,7 +108,12 @@ class MainControl():
 		(self.error_no, self.twitter_username) = self.validate_username(self.twitter_username)
 
 		if self.error_no == 0:
+			#TODO: link a new process with the program
 			print("it went through.")
+			p1 = mp.Process(target=td.get_all_tweets, args=(self.twitter_username, self.lang, self.dest))
+			p1.daemon = True
+			p1.start()
+			p1.join()
 		else:
 			self.GUI.log_data.log_print(self.switch_err(self.error_no))
 

@@ -6,6 +6,7 @@ import tweepy #https://github.com/tweepy/tweepy
 import csv
 from tqdm import tqdm
 from googletrans import Translator
+import MainControl
 
 #Twitter API credentials
 consumer_key = "I0PtW9HXNouIsMTNvA1Uu1C5P"
@@ -48,7 +49,7 @@ def get_all_tweets(screen_name, lang, dest):
 		#update the id of the oldest tweet less one
 		oldest = alltweets[-1].id - 1
 		
-		print("... tweets downloaded so far").format(len(alltweets))
+		print("... tweets downloaded so far".format(len(alltweets)))
 	
 	#transform the tweepy tweets into a 2D array that will populate the csv	
 	outtweets = []
@@ -60,8 +61,8 @@ def get_all_tweets(screen_name, lang, dest):
 
 	with tqdm(total = 100) as pbar:
 		for tweet in alltweets:
-			url = "http://twitter.com/%s/status/%s" % (screen_name, tweet.id_str)
-			url_text = '=HYPERLINK("%s", "Access details here")' % url
+			url = "http://twitter.com/{}/status/{}".format(screen_name, tweet.id_str)
+			url_text = '=HYPERLINK("{}", "Access details here")'.format(url)
 			desc = ''
 			try:
 				desc = trans.translate(tweet.text, dest="%s" % lang).text
@@ -88,5 +89,5 @@ def get_all_tweets(screen_name, lang, dest):
 	#write the csv	
 	with open('{}/{}_tweets.csv'.format(dest, screen_name), 'wb') as f:
 		writer = csv.writer(f)
-		writer.writerow(["Date","Description","Arabic description","Media source link"])
+		writer.writerow(["Date","Translated version","Original tweet","Media source link"])
 		writer.writerows(outtweets)
