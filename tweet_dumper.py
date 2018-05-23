@@ -61,7 +61,7 @@ def get_all_tweets(screen_name, lang, dest):
 		#update the id of the oldest tweet less one
 		oldest = alltweets[-1].id - 1
 		
-		print("... tweets downloaded so far".format(len(alltweets)))
+		print("... {} tweets downloaded so far".format(len(alltweets)))
 	
 	#transform the tweepy tweets into a 2D array that will populate the csv	
 	outtweets = []
@@ -71,9 +71,26 @@ def get_all_tweets(screen_name, lang, dest):
 	cnt = 0
 	translated = 0
 
-	alltweets = alltweets[0:10]
+	#alltweets = alltweets[cnt:cnt + 10]
+	for tweet in alltweets:
+		tweet.text = emojiPatt.sub(r'', tweet.text)
+
+	alltweets_text = []
+	for tweet in alltweets:
+		alltweets_text.append(tweet.text)
+
+	translations = trans.translate(alltweets_text, dest='{}'.format(lang))
+
+	for tweet in tqdm(len(alltweets)):
+		url = "http://twitter.com/{}/status/{}".format(screen_name, alltweets[tweet].id_str)
+		url_text = '=HYPERLINK("{}", "Access details here")'.format(url)
+		desc = ''
+		desc = translations[tweet].text
+		date = str(alltweets[tweet].created_at).split(" ")
+		outtweets.append([date[0], desc, alltweets[tweet].text, url_text])
 
 	#We can iterate using tqdm, and it'll progress on it's own
+	"""
 	for tweet in tqdm(alltweets):
 		url = "http://twitter.com/{}/status/{}".format(screen_name, tweet.id_str)
 		url_text = '=HYPERLINK("{}", "Access details here")'.format(url)
@@ -83,7 +100,7 @@ def get_all_tweets(screen_name, lang, dest):
 		tweet.text = emojiPatt.sub(r'', tweet.text)
 
 		try:
-			desc = trans.translate(tweet.text, dest="%s" % lang).text
+			desc = trans.translate(tweet.text, dest="{}".format(lang)).text
 			translated = translated + 1
 		except:
 			desc = "Couldn't translate this tweet."
@@ -94,6 +111,7 @@ def get_all_tweets(screen_name, lang, dest):
 		date = str(tweet.created_at).split(" ")
 
 		outtweets.append([date[0], desc, tweet.text, url_text])
+	"""
 
 	print("####################################################")
 	print("# A total of {} tweets have been downloaded".format(str(cnt)))
