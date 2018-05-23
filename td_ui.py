@@ -1,8 +1,15 @@
 import tkinter as tk
-from tkinter.filedialog import *
+import tkinter.filedialog
+# from tkinter.filedialog import *
 import getpass
 import MainControl as mc
 import tweet_dumper as td
+import os
+
+
+
+
+
 		
 class Titlebar(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
@@ -70,7 +77,13 @@ class FileInput(tk.Frame):
 			font=("Helvetica")).grid(row=1, column=0, sticky = tk.E)
 
 		#make a default directory as an entry
-		self.dest = tk.StringVar(self, value='/Users/{}/Documents/tweet_dumper'.format(getpass.getuser()))
+		''' '/Users/{}/Documents/tweet_dumper'.format(getpass.getuser())
+		^^ gives error when the directory isn't created. Although
+		there is a way to create a folder (needs permission tho)
+		'''
+		currentDirectory = os.path.dirname(os.path.realpath(__file__))
+		
+		self.dest = tk.StringVar(self, value=currentDirectory)
 		self.dest_entry = tk.Entry(self, textvariable= self.dest)
 		self.dest_entry.grid(row=1,column=1,sticky=tk.W)
 
@@ -84,7 +97,11 @@ class FileInput(tk.Frame):
 
 	def callback(self):
 		print("FileInput: click!")
-		self.dest.set(askdirectory(initialdir = "/"))
+		'''
+		Whenever button is clicked, call askdirectory()
+		and set dest to its return value
+		'''
+		self.dest.set(tkinter.filedialog.askdirectory())
 		print(self.dest.get())
 class Statusbar(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
@@ -184,7 +201,6 @@ class MainApplication(tk.Frame):
 
 
 if __name__ == "__main__":
-
 	root = tk.Tk()
 	MainApplication(root).pack(side="top", fill="both", expand=True)
 	root.mainloop()
